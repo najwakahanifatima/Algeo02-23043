@@ -1,4 +1,5 @@
 import numpy as np
+from process_image import *
 
 #test case
 query = np.array([[0.5, 1.5, 2.5]]) # query vector (q'): 1 x p
@@ -14,8 +15,8 @@ eigen_vector_k = np.array([
     [0.1, 0.2]
     ])  # eigenvector matrix (Uk): p x k
 
-def projected_query(query) :
-    q = np.matmul((query - avg_pixel), eigen_vector_k) #(q: apakah matmul boleh dipake?)
+def projected_query(query, avg_pixel, eigen_vector_k) :
+    q = np.dot((query - avg_pixel), eigen_vector_k) #(q: apakah matmul boleh dipake?)
     return q
 
 def euc_dist() :
