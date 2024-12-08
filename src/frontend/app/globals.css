@@ -15,7 +15,56 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: linear-gradient(to top right, #173047, #5583AD);
+  background: linear-gradient(to top right, #173047, #5583AD);
   font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.button-navbar-on {
+  background-color: #FFB61D;
+  border-radius: 20px;
+  padding:5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button-navbar-off {
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
+  gap: 7px;
+  margin-left:20px;
+  margin-right: 30px;
+  padding: 5px;
+  border-radius: 20px;
+  padding:5px;
+  padding-left: 16px;
+  padding-right: 16px;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button-navbar-off:hover {
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
+  gap: 7px;
+  margin-left:20px;
+  margin-right: 30px;
+  background-color: #FFB61D;
+  padding: 5px;
+  border-radius: 20px;
+  padding:5px;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
