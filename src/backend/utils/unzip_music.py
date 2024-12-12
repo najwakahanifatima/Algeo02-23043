@@ -16,7 +16,6 @@ def unzipMusic(zip_folder, hasil_folder) :
 
     try:
         with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-            # List all contents of the ZIP file (optional)
             zip_ref.printdir()
 
             for file in zip_ref.namelist():
