@@ -1,6 +1,7 @@
 import numpy as np
 
 #test case
+'''
 query = np.array([[0.5, 1.5, 2.5]]) # query vector (q'): 1 x p
 projected_data = np.array([
     [1.1, 2.1],
@@ -13,16 +14,16 @@ eigen_vector_k = np.array([
     [0.7, 0.5],
     [0.1, 0.2]
     ])  # eigenvector matrix (Uk): p x k
-
-def projected_query(query) :
+'''
+def projected_query(query, avg_pixel, eigen_vector_k) :
     q = np.matmul((query - avg_pixel), eigen_vector_k) #(q: apakah matmul boleh dipake?)
     return q
 
-def euc_dist() :
+def euc_dist(z, query, avg_pixel, eigen_vector_k) :
     arr_res = []
     k = eigen_vector_k.shape[1] #get cols, number of k, principal components
-    q = projected_query(query)
-    z = projected_data
+    q = projected_query(query, avg_pixel, eigen_vector_k)
+    #z = projected_data
     n = z.shape[0] #get rows, number of image
     limit = np.inf
     for j in range(n) :
@@ -34,11 +35,10 @@ def euc_dist() :
             arr_res.append([j, float(d)]) #j index of img, d euc dist
     return arr_res
 
-def retrieve_img() :
-    res = euc_dist()
+def retrieve_img(z, query, avg_pixel, eigen_vector_k) :
+    res = euc_dist(z, query, avg_pixel, eigen_vector_k)
     res.sort(key=lambda x:x[1])
     print(res)
-    
     return res
     
-retrieve_img()
+#retrieve_img(projected_data, query)
