@@ -39,15 +39,13 @@ def process_data_image(folder_path):
     image_name = []
     
     #read all imaged from folder database
-    i = 0
     with os.scandir(folder_path) as entries:
-        for i, filename in enumerate(entries): #adjusted
-            image_path = os.path.join(folder_path, filename)
-            if os.path.isfile(image_path):  # Ensure it's a file
+        for i, entry in enumerate(entries): #adjusted
+            if entry.is_file():  # Ensure it's a file
+                image_path = os.path.join(folder_path, entry.name)
                 img_array = grayscale(image_path)
                 image_pixel_data.append(img_array)
-                image_name.append((i, filename))
-                i += 1
+                image_name.append((i, entry.name))
     
     standardized_data, pixel_avg, pixel_std = standardize(image_pixel_data)
     
@@ -55,20 +53,18 @@ def process_data_image(folder_path):
     
     # np.random.seed(42)
     Uk, S, VT = comp_svd(covariance_data, k=K_Components)
+    
     # Uk = get_Uk(U, K_Components)
     # U, S, VT = np.linalg.svd(covariance_data, full_matrices=False)
-    
     # UK = U[:,:K_Components]
+    # row, col = Uk.shape
+    # print("row UK: " + str(row))
+    # print("col UK: " + str(col))
     
-    row, col = Uk.shape
-    print("row UK: " + str(row))
-    print("col UK: " + str(col))
-    
-    # projected_data = projection_data(standardized_data, UK)
     projected_data = projection_data(standardized_data, Uk)
     
-    explained_variance_ratio = S / S.sum()
-    print("evr: " + str(explained_variance_ratio))
+    # explained_variance_ratio = S / S.sum()
+    # print("evr: " + str(explained_variance_ratio))
     
     return projected_data, pixel_avg, pixel_std, image_name, Uk #cekkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 
@@ -78,7 +74,7 @@ def project_query(query, pixel_avg, pixel_std, Uk):
 def euc_dist(projected_query, projected_data):
     return [(index, np.linalg.norm(projected_query - value)) for index, value in enumerate(projected_data)]
 
-def process_query(file_name, folder_path):
+def process_image_query(file_name, folder_path):
     #get variables from dataset
     projected_data, pixel_avg, pixel_std, image_name, Uk = process_data_image(folder_path)
     
@@ -92,22 +88,14 @@ def process_query(file_name, folder_path):
     sorted_euc_distance = sorted(euc_distance, key=lambda x: x[1])
     sorted_euc_dist_indices = [item[0] for item in sorted_euc_distance]
     
-    #print sorted result
+    max_distance = sorted_euc_distance[len(image_name)-1][1] #get highest euc dist
+    
+    #append sorted image and similarity percentage result
+    iir_result = []
+    i = 0
     for index in sorted_euc_dist_indices:
-        print(image_name[index][1])
-        
-        
-
-from datetime import datetime
-
-start_time = datetime.now()
-
-process_query("database_image/test/lion1.jpg", "database_image/test")
-
-# Your computation here
-result = sum(range(10**6))
-
-end_time = datetime.now()
-duration = end_time - start_time  # This gives a timedelta object
-
-print(f"Computation took {duration}")
+        similarity_percentage = (max_distance - sorted_euc_distance[i][1]) / max_distance * 100
+        iir_result.append((image_name[index][1], similarity_percentage))
+        i += 1
+    
+    return np.array(iir_result)
