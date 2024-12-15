@@ -1,6 +1,11 @@
+"use client";
+
 import React from "react";
+import SideBar from "./sidebar";
+import { useRouter } from "next/navigation";
 
 export default function ImageRetrieval(){
+    const router = useRouter()
     return(
         <div className="flex flex-col">
             {/*Navigation Bar*/}
@@ -16,11 +21,13 @@ export default function ImageRetrieval(){
                 </div>
                 {/*Right Components*/}
                 <div className="flex flex-row align-middle justify-items-center">
-                    <button className="button-navbar-on">
+                    <button 
+                        onClick={()=>router.push("/music_retrieval")}
+                        className="button-navbar-off">
                         <img src="\Music Equalizer.svg" alt="" className="w-5 h-5" />
                         <span className="text-white"> Music Retrieval </span>
                     </button>
-                    <button className="button-navbar-off">
+                    <button className="button-navbar-on">
                         <img src="\Music Folder Song.svg" alt="" className="w-5 h-5" />
                         <span className="text-white"> Album Finder </span>
                     </button>
@@ -29,9 +36,7 @@ export default function ImageRetrieval(){
             {/*Body*/}
             <div className="grid grid-cols-5 gap-8 ml-7 mr-7 mt-10">
                 {/*Side Bar*/}
-                <div className="border">
-                    Side Bar
-                </div>
+                <SideBar/>
                 {/*Main Page Bar*/}
                 <div className="border col-span-4">
                     Main Container

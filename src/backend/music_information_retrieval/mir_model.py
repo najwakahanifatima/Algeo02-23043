@@ -1,11 +1,17 @@
-from music_similarity import *
+from datetime import datetime
+from music_processing import process_music_query
 
-file_name = "Tico_Tico.mid"
+start_time = datetime.now()
 
-music_name, music_data = process_music_database()
+file_query = "Tico_Tico.mid"
+database_folder = "database_music"
 
-result = retrieve_music()
+mir_result = process_music_query(file_query, database_folder)
+print(mir_result)
 
-print(music_name)
+#time computing
+result = sum(range(10**6))
+end_time = datetime.now()
+duration = end_time - start_time
 
-print(music_name[result[0][0]])
+print(f"Computation took {duration}")
