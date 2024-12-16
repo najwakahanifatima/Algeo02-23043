@@ -11,7 +11,6 @@ K_Components = 10  #bisa diubah2 ya wak
 def numpy_to_list(arr):
     return arr.tolist() if isinstance(arr, np.ndarray) else arr
 
-
 def grayscale(filename):
     #convert image to grayscale, resize to 64 x 64, then flatten to be a vector
     image = Image.open(filename).resize((144, 144))
@@ -25,7 +24,7 @@ def standardize(image_arrays):
     image_stack = np.stack(image_arrays, axis=0)
     pixel_avg = np.mean(image_stack, axis=0)
     pixel_std = np.where(image_stack.std(axis=0) == 0, 1, image_stack.std(axis=0))
-    return ((image_stack - pixel_avg) / pixel_std).astype(np.float64), pixel_avg, pixel_std
+    return ((image_stack - pixel_avg) / pixel_std).astype(np.float64), numpy_to_list(pixel_avg), numpy_to_list(pixel_std)
 
 def comp_covariance(standardized_data):
     #compute matrix covariance
@@ -38,7 +37,7 @@ def comp_svd(covariance_data, k):
 
 def projection_data(standardized_data, U):
     #get the Z matrix (data projection)
-    return np.dot(standardized_data, U)
+    return numpy_to_list(np.dot(standardized_data, U))
 
 def process_data_image(folder_path):
     image_pixel_data = []
@@ -77,7 +76,7 @@ def process_data_image(folder_path):
     pixel_std = numpy_to_list(pixel_std)
     Uk = numpy_to_list(Uk)
     
-    return projected_data, pixel_avg, pixel_std, image_name, Uk #cekkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+    return projected_data, pixel_avg, pixel_std, image_name, numpy_to_list(Uk) #cekkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 
 def project_query(query, pixel_avg, pixel_std, Uk):
     return np.dot(((query - pixel_avg)/pixel_std), Uk)
@@ -85,9 +84,7 @@ def project_query(query, pixel_avg, pixel_std, Uk):
 def euc_dist(projected_query, projected_data):
     return [(index, np.linalg.norm(projected_query - value)) for index, value in enumerate(projected_data)]
 
-def process_image_query(file_name):
-    #get variables from dataset
-    
+def process_image_query(file_name):  
     # BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
     # folder_path = os.path.join(BASE_DIR, "database", "images", "database_image.json")
     base_dir = os.path.abspath(os.path.dirname(__file__))

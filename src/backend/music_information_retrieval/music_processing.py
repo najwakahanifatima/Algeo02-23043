@@ -9,6 +9,9 @@ def numpy_to_list(arr):
 
 ############################################# Ekstraksi Fitur #############################################
 
+def numpy_to_list(arr):
+    return arr.tolist() if isinstance(arr, np.ndarray) else arr
+
 def histogram(data, bins, min, max):
     histogram, _ = np.histogram(data, bins=bins, range=(min, max))
     if(np.sum(histogram) != 0):
@@ -83,9 +86,9 @@ def process_music_database(database_music_path):
                             atb_histogram = absolute_tone_based(window)
                             rtb_histogram = relative_tone_based(window)
                             ftb_histogram = first_tone_based(window)
-                            temp.append(atb_histogram)
-                            temp.append(rtb_histogram)
-                            temp.append(ftb_histogram)
+                            temp.append(numpy_to_list(atb_histogram))
+                            temp.append(numpy_to_list(rtb_histogram))
+                            temp.append(numpy_to_list(ftb_histogram))
                         music_name.append((i, entry.name))
                         musicdata.append(temp)
                     # else:
@@ -154,6 +157,53 @@ def process_music_query(file_query, database_folder) :
     for index in sorted_cos_sim_indices:
         similarity_percentage = sorted_cos_sim[i][1] / max_cos_sim * 100
         r_similarity
+        mir_result.append((music_name[index][1], similarity_percentage))
+        i += 1
+    
+    return np.array(mir_result)
+
+def process_music_query2(file_query, database_music) :
+    #similarity computation using cosinus similarity
+    magnitude_query = np.array([]) # index: ATB, RTB, FTB
+    query = process_query(file_query, "database/audio") #need checking
+    ATB_query = np.array(query[0])
+    RTB_query = np.array(query[1])
+    FTB_query = np.array(query[2])
+    music_name = database_music["music_name"]
+    music_data = process_music_database(database_folder)
+
+    cos_sim_result_avg = []
+    
+    #get data magnitude of tones in query
+    magnitude = np.linalg.norm(ATB_query)
+    magnitude_query = np.append(magnitude_query, magnitude)
+    magnitude = np.linalg.norm(RTB_query)
+    magnitude_query = np.append(magnitude_query, magnitude)
+    magnitude = np.linalg.norm(FTB_query)
+    magnitude_query = np.append(magnitude_query, magnitude)
+        
+    #compute cos similarity
+    for idx_music in range(len(music_data)) :
+        temp_cos_sim = []
+        for tone_dist in range(3) :
+            dot_product = np.dot(query[tone_dist], music_data[idx_music][tone_dist])
+            norm_query = np.linalg.norm(query[tone_dist])
+            norm_music_data = np.linalg.norm(music_data[idx_music][tone_dist])
+            res_cosine_sim = dot_product / (norm_query * norm_music_data)
+            temp_cos_sim.append(res_cosine_sim)
+        avg_cosine_sim = np.mean(temp_cos_sim)
+        #semakin besar cos_sim, semakin kecil sudut, semakin mirip
+        cos_sim_result_avg.append([idx_music, avg_cosine_sim])
+        
+    sorted_cos_sim = sorted(cos_sim_result_avg, key=lambda x:x[1], reverse=True)
+    sorted_cos_sim_indices = [item[0] for item in sorted_cos_sim]
+    
+    max_cos_sim = sorted_cos_sim[0][1]
+        
+    mir_result = []
+    i = 0
+    for index in sorted_cos_sim_indices:
+        similarity_percentage = sorted_cos_sim[i][1] / max_cos_sim * 100
         mir_result.append((music_name[index][1], similarity_percentage))
         i += 1
     

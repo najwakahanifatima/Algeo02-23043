@@ -8,6 +8,7 @@ import zipfile
 import rarfile
 import shutil
 import json
+import numpy as np
 
 BASE_DIR = os.path.join(os.getcwd())
 
@@ -53,7 +54,7 @@ def save_and_extract_file(file: UploadFile, subdir: str):
         with rarfile.RarFile(file_path, 'r') as rar_ref:
             rar_ref.extractall(target_dir)
         os.remove(file_path)  # Remove the rar file after extraction
-    return file_path
+    return target_dir
 
 @app.post("/upload-database-audio/")
 async def upload_database_audio(file: UploadFile = File(...)):
