@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)
 
-## Getting Started
+# MuseIc
+> Find your music
 
-First, run the development server:
+Sebuah website yang dapat menerima input lagu, gambar album, dan file humming dan mendeteksi nama dari lagu tersebut. 
 
-```bash
+## Installing / Getting started
+Anda perlu menginstall pip dan Node.js.
+Setelah itu, install package package di bawah ini dengan run kode :
+```shell
+pip install pillow
+pip install mido
+pip install numpy
+pip install scipy
+pip install rarfile
+pip install zipfile
+pip install uvicorn
+npm install react
+npm install next
+```
+### Initial Configuration
+
+Buka 2 terminal.
+Di terminal pertama, navigasi ke folder backend, lalu jalankan API.
+```shell
+cd src/backend
+uvicorn app:app --reload
+```
+Di terminal ke dua, navigasi ke folder frontend, lalu jalankan interface.
+
+```shell
+cd src/frontend
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Jika port tidak terpakai, website akan dijalankan di http://localhost:3000. CTRL+klik link tersebut di terminal Anda. 
+
+
+## Developing
+
+### Building
+
+
+### Deploying / Publishing
+
+In case there's some step you have to take that publishes this project to a
+server, this is the right time to state it.
+
+```shell
+packagemanager deploy awesome-project -s server.com -u username -p password
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+And again you'd need to tell what the previous code actually does.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* Query by Humming
+* Album Finder
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+Here you should write what are all of the configurations a user can enter when
+using the project.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Argument 1
+Type: `String`  
+Default: `'default value'`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+State what an argument does and how you can use it. If needed, you can provide
+an example below.
 
-## Deploy on Vercel
+Example:
+```bash
+awesome-project "Some other value"  # Prints "You're nailing this readme!"
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Argument 2
+Type: `Number|Boolean`  
+Default: 100
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Copy-paste as many of these as you need.
+
+## Contributing
+Apabila Anda ingin berkontribusi dalam projek ini, silakan fork repository ini dan gunakan feature branch. Pull requests akan diterima dengan hangat.
+
+## Links
+
+
+- Repository: https://github.com/najwakahanifatima/Algeo02-23043
+- Issue tracker: https://github.com/your/awesome-project/issues
+  - In case of sensitive bugs like security vulnerabilities, please contact
+    
+    emaiiillll
+
+## Licensing
+
+"The code in this project is licensed under MIT license."
