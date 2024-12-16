@@ -6,6 +6,7 @@ from image_information_retrieval.image_processing import *
 from music_information_retrieval.music_processing import *
 from image_information_retrieval.iir_model import *
 from music_information_retrieval.mir_model import *
+from typing import List
 import os
 import zipfile
 import rarfile
@@ -61,14 +62,25 @@ def save_and_extract_file(file: UploadFile, subdir: str):
         os.remove(file_path)  # Remove the rar file after extraction
     return target_dir
 
-@app.post("/upload-database-audio/")
-async def upload_database_audio(file: UploadFile = File(...)):
+def save_and_extract_multiple_files(files: List[UploadFile], subdir: str):
+    extracted_paths = []
     try:
-        path = save_and_extract_file(file, "audio")
+        for file in files:
+            extracted_path = save_and_extract_file(file, subdir)
+            extracted_paths.append(extracted_path)
+        return extracted_paths
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing files: {e}")
+
+@app.post("/upload-database-audio/")
+async def upload_database_audio(files: List[UploadFile] = File(...)):
+    try:
         start_time = datetime.now()
-        music_name, music_data = process_music_database(path)
+        for file in files:
+            path = save_and_extract_file(file, "audio")
+            music_name, music_data = process_music_database(path)
+            
         end_time = datetime.now()
-        
         duration = end_time - start_time
         
         response_data = {
@@ -97,8 +109,8 @@ async def upload_database_audio(file: UploadFile = File(...)):
 @app.post("/upload-database-image/")
 async def upload_database_image(file: UploadFile = File(...)):
     try:
-        path = save_and_extract_file(file, "image")
         start_time = datetime.now()
+        paths = save_and_extract_multiple_files(files, "image")
         projected_data, pixel_avg, pixel_std, image_name, Uk = process_data_image(path)
         end_time = datetime.now()
         
