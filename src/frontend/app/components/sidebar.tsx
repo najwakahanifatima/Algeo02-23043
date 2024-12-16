@@ -22,19 +22,22 @@ export default function SideBar({ type }: SideBarProps) {
   
     const formData = new FormData();
     files.forEach((file: File) => formData.append("files", file)); // Append multiple files
-  
+    
     try {
       const response = await fetch(`http://localhost:8000/${endpoint}/`, {
         method: "POST",
         body: formData,
       });
-  
+      console.log(endpoint);
+      console.log(response);
       if (!response.ok) throw new Error(`Failed to upload files to ${endpoint}`);
-  
+      console.log("hai1");
       const result = await response.json();
       alert(result.message);
       return { success: true, duration: result.duration };
+
     } catch (error) {
+      console.log("hai");
       console.error(`Error uploading to ${endpoint}:`, error);
       alert(`Failed to upload files to ${endpoint}`);
       return { success: false };
@@ -122,14 +125,14 @@ export default function SideBar({ type }: SideBarProps) {
       <div className="file-upload-container w-full flex flex-col items-center">
       <FileUpload
         label="Dataset Audio"
-        accept=".zip,.rar"
+        accept=".zip,.rar,.mid"
         file={selectedAudioFile}
         setFile={setSelectedAudioFile}
         multiple={true}
       />
       <FileUpload
         label="Dataset Image"
-        accept=".zip,.rar"
+        accept=".zip,.rar,.jpg,.png,.jpeg"
         file={selectedImageFile}
         setFile={setSelectedImageFile}
         multiple={true}
@@ -139,7 +142,6 @@ export default function SideBar({ type }: SideBarProps) {
         accept=".json,.txt"
         file={selectedMapperFile}
         setFile={setSelectedMapperFile}
-        multiple={true}
       />
         <button
           onClick={handleLoadDatabase}

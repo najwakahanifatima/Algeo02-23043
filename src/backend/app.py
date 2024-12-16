@@ -75,74 +75,88 @@ def save_and_extract_multiple_files(files: List[UploadFile], subdir: str):
 @app.post("/upload-database-audio/")
 async def upload_database_audio(files: List[UploadFile] = File(...)):
     try:
+        # Initialize an array to hold the results for all files
+        response_data = {
+            "audios": []  # This will store results for each audio file
+        }
+        print("gagal di 1")
+
         start_time = datetime.now()
+        print("gagal di 2")
         for file in files:
             path = save_and_extract_file(file, "audio")
-            music_name, music_data = process_music_database(path)
             
+            music_name, music_data = process_music_database(path)
+
+            response_data["audios"].append({
+                "music_name": music_name,
+                "music_data": music_data,
+            })
+        print("gagal di 3")
+
         end_time = datetime.now()
-        duration = end_time - start_time
-        
-        response_data = {
-            "music_name" : music_name,
-            "music_data" : music_data,
-        }
-                
+        duration = (end_time - start_time).total_seconds()
+        print("gagal di 4")
         json_output_path = os.path.join(BASE_DIR, "database", "audio", "database_music.json")
+        with open(json_output_path, "w") as json_file:
+            json.dump(response_data, json_file, indent=4)
+        print("gagal di 5")
+        print(f"Response data saved to {json_output_path}")
         
-        try:
-            with open(json_output_path, "w") as json_file:
-                json.dump(response_data, json_file, indent=4)
-            print(f"Response data saved to {json_output_path}")
-            return JSONResponse(
+        return JSONResponse(
                 content={
                     "message": "Upload & Load Audio Success!",
                     "duration" : str(duration.total_seconds()),
                     }, 
                 status_code=200)
-        except Exception as e:
-            print(f"Error writing JSON file: {e}")
-            return JSONResponse(status_code=500, detail=str(e))
     except Exception as e:
+        print(f"Error uploading audios: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
     
 @app.post("/upload-database-image/")
-async def upload_database_image(file: UploadFile = File(...)):
+async def upload_database_image(files: List[UploadFile] = File(...)):
+    print(f"Received {len(files)} files")
     try:
-        start_time = datetime.now()
-        paths = save_and_extract_multiple_files(files, "image")
-        projected_data, pixel_avg, pixel_std, image_name, Uk = process_data_image(path)
-        end_time = datetime.now()
-        
-        duration = end_time - start_time
-
         response_data = {
-            "image_name" : image_name,
-            "projected_data": projected_data,
-            "pixel_avg" : pixel_avg,
-            "pixel_std": pixel_std,
-            "uk": Uk,
+            "images": []  # This will hold the details for each image
         }
+        start_time = datetime.now()
 
-        response_data["image_name"] = [list(item) for item in response_data["image_name"]]
+        for file in files:
+            path = save_and_extract_file(file, "image")
+            
+            projected_data, pixel_avg, pixel_std, image_name, Uk = process_data_image(path)
 
+            response_data["images"].append({
+                "image_name": image_name,
+                "projected_data": projected_data,
+                "pixel_avg": pixel_avg,
+                "pixel_std": pixel_std,
+                "Uk": Uk,
+            })
+
+        end_time = datetime.now()
+        duration = (end_time - start_time).total_seconds()
+
+        # Save results to JSON file if needed
         json_output_path = os.path.join(BASE_DIR, "database", "image", "database_image.json")
+        with open(json_output_path, "w") as json_file:
+            json.dump(response_data, json_file, indent=4)
+
+        print(f"Response data saved to {json_output_path}")
         
-        try:
-            with open(json_output_path, "w") as json_file:
-                json.dump(response_data, json_file, indent=4)
-            print(f"Response data saved to {json_output_path}")
-            return JSONResponse(
+        # Return the response data
+        return JSONResponse(
                 content={
-                    "message": "Upload & Load Images Success!",
+                    "message": "Upload & Load Image Success!",
                     "duration" : str(duration.total_seconds()),
-                    },
+                    }, 
                 status_code=200)
-        except Exception as e:
-            print(f"Error writing JSON file: {e}")
-            return JSONResponse(status_code=500, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=700, detail=str(e))
+        print(f"Error uploading images: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/upload-mapper/")
 async def upload_mapper(file: UploadFile = File(...)):
     try:
