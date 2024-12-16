@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1> MuseIc </h1>
+> Find your music
 
-## Getting Started
+Sebuah website yang dapat menerima input lagu, gambar album, dan file humming lalu mendeteksi nama dari lagu tersebut. Dibuat sebagai tugas besar 2 Algoritma dan Struktur Data.
 
-First, run the development server:
+<div id="contributor">
+  <strong>
+    <h3>Dibuat oleh Kelompok 14 - Menjajal Nilai Maksimal</h3>
+    <table align="center">
+      <tr>
+        <td>NIM</td>
+        <td>Nama</td>
+      </tr>
+      <tr>
+        <td>13522043</td>
+        <td>Najwa Kahani Fatima</td>
+      </tr>
+      <tr>
+        <td>13522050</td>
+        <td>Mayla Yaffa Ludmilla</td>
+      </tr>
+      <tr>
+        <td>13522079</td>
+        <td>Nayla Zahira</td>
+      </tr>
+    </table>
+  </strong>
+</div>
 
-```bash
+## Technologies Used
+### Front-End
+- Next.js
+- React
+- Tailwind CSS
+
+### Back-End
+- FastAPI
+- Python
+
+## Installing / Getting started
+Anda perlu menginstall pip dan Node.js.
+Setelah itu, install package package di bawah ini dengan run kode :
+```shell
+pip install pillow
+pip install mido
+pip install numpy
+pip install scipy
+pip install rarfile
+pip install zipfile
+pip install shutil
+pip install uvicorn
+pip install fastapi
+pip install python-multipart
+npm install react
+npm install next
+```
+### Initial Configuration
+
+Buka 2 terminal.
+Di terminal pertama, navigasi ke folder backend, lalu jalankan API.
+```shell
+cd src/backend
+uvicorn app:app --reload
+```
+Di terminal ke dua, navigasi ke folder frontend, lalu jalankan interface.
+
+```shell
+cd src/frontend
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Jika port tidak terpakai, website akan dijalankan di http://localhost:3000. CTRL+klik link tersebut di terminal Anda. 
+
+
+## Developing
+
+### Building
+
+
+### Deploying / Publishing
+
+In case there's some step you have to take that publishes this project to a
+server, this is the right time to state it.
+
+```shell
+packagemanager deploy awesome-project -s server.com -u username -p password
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+And again you'd need to tell what the previous code actually does.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* Query by Humming
+* Album Finder
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
+Apabila Anda ingin berkontribusi dalam projek ini, silakan fork repository ini dan gunakan feature branch. Pull requests akan diterima dengan hangat.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Links
+- Repository: https://github.com/najwakahanifatima/Algeo02-23043
+- Issue tracker: https://github.com/your/awesome-project/issues
+  - In case of sensitive bugs like security vulnerabilities, please contact
+    
+    emaiiillll
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Licensing
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+"The code in this project is licensed under MIT license."

@@ -6,14 +6,18 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
   const router = useRouter()
   return (
-      <div className="flex flex-row border align-middle justify-between mt-3">
+      <div className="flex flex-row align-middle justify-between mt-3 w-full z-50 border-b-2 pb-2">
           {/*Left Component*/}
           <div className="flex flex-row gap-5 ml-7"> 
               <button>
-                  <img src="\Home 3.svg" alt="" className="w-6 h-6 pb-0.5"/>
+                  <img 
+                  onClick={()=>router.push('/')}
+                  src="\Home 3.svg" alt="" className="w-6 h-6 pb-0.5"/>
               </button>
               <button>
-                  <img src="\MuseIc.svg" alt="" className="w-20"/>
+                  <img 
+                  onClick={()=>router.push('/')}
+                  src="\MuseIc.svg" alt="" className="w-20"/>
               </button>
           </div>
           {/*Right Components*/}

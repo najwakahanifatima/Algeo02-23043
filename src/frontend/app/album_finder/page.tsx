@@ -3,9 +3,7 @@ import ImageRetrieval from "../components/image";
 
 const ImagePage = () => {
 	return (
-		<div>
-			<ImageRetrieval/>
-		</div>
+		<ImageRetrieval/>
 	);
 };
 
